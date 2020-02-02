@@ -4,7 +4,7 @@
  
 <html>
 <head>
-    <title>Add Employee Form</title> 
+    <title>Add User Form</title>
     <style>
     .error
     {
@@ -15,9 +15,9 @@
 </head>
  
 <body>
-    <h2><spring:message code="lbl.page" text="Add New Employee" /></h2>
+    <h2><spring:message code="lbl.page" text="Add New User" /></h2>
     <br/>
-    <form:form method="post" modelAttribute="employee">
+    <form:form method="post" modelAttribute="user">
         <%-- <form:errors path="*" cssClass="error" /> --%>
         <table>
             <tr>

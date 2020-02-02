@@ -1,24 +1,23 @@
 package com.s2p.utility.exceluploader.model;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+@Document
 public class CommonModel implements Serializable {
-    protected int id;
-    private Map info;
+    protected String id;
+    protected Map info;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
-    }
-
-    public Map getInfo() {
-        return info;
     }
 
     public void addInfo(Object key, Object value) {
@@ -45,7 +44,7 @@ public class CommonModel implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(info);
+        return Objects.hash(id, info);
     }
 
     @Override

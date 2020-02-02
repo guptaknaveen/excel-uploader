@@ -1,12 +1,17 @@
 package com.s2p.utility.exceluploader.model;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
+@Document
 public class MetaData extends CommonModel {
     private String name;
     private String label;
+    private String description;
     private List<String> tags;
     private List<Field> fields;
 
@@ -46,6 +51,30 @@ public class MetaData extends CommonModel {
         this.fields = fields;
     }
 
+    public Map getInfo() {
+        return info;
+    }
+
+    public void setInfo(Map info) {
+        this.info = info;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public MetaData addTag(String tag) {
         if (this.tags == null) {
             this.tags = new ArrayList<>();
@@ -83,11 +112,13 @@ public class MetaData extends CommonModel {
     @Override
     public String toString() {
         return "MetaData{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
                 ", label='" + label + '\'' +
+                ", description='" + description + '\'' +
                 ", tags=" + tags +
                 ", fields=" + fields +
+                ", id='" + id + '\'' +
+                ", info=" + info +
                 '}';
     }
 }

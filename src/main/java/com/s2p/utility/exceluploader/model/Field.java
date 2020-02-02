@@ -1,13 +1,19 @@
 package com.s2p.utility.exceluploader.model;
 
 import com.s2p.utility.exceluploader.constant.FieldType;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Map;
 import java.util.Objects;
 
+@Document
 public class Field extends CommonModel {
     private String name;
     private String collection;
     private FieldType fieldType;
+
+    public Field() {
+    }
 
     public Field(String name, FieldType fieldType) {
         this.name = name;
@@ -38,12 +44,24 @@ public class Field extends CommonModel {
         this.fieldType = fieldType;
     }
 
-    public int getId() {
+    public FieldType getFieldType(String fieldType) {
+        return FieldType.STRING.getFieldTypeFromString(fieldType);
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public Map getInfo() {
+        return info;
+    }
+
+    public void setInfo(Map info) {
+        this.info = info;
     }
 
     @Override

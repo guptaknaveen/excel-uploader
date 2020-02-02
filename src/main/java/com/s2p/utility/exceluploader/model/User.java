@@ -1,20 +1,24 @@
 package com.s2p.utility.exceluploader.model;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
+@Document
 public class User extends CommonModel {
     private String firstName;
     private String lastName;
     private String email;
     private List<FieldPermission> permissions;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -40,6 +44,22 @@ public class User extends CommonModel {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Map getInfo() {
+        return info;
+    }
+
+    public void setInfo(Map info) {
+        this.info = info;
+    }
+
+    public List<FieldPermission> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(List<FieldPermission> permissions) {
+        this.permissions = permissions;
     }
 
     public User addPermission(FieldPermission fieldPermission) {

@@ -1,7 +1,10 @@
 package com.s2p.utility.exceluploader.model;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.Objects;
 
+@Document
 public class FieldPermission extends CommonModel {
     private Field field;
     private int permission;

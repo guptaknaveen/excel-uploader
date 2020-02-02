@@ -1,8 +1,8 @@
 <html>
     <head>
-        <title>Add Employee Success</title>
+        <title>Add User Success</title>
     </head>
     <body>
-        Employee has been added successfully.
+        User has been added successfully.
     </body>
 </html>
