@@ -3,6 +3,8 @@ package com.s2p.utility.exceluploader.model;
 import com.s2p.utility.exceluploader.constant.FieldType;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -11,6 +13,7 @@ public class Field extends CommonModel {
     private String name;
     private String collection;
     private FieldType fieldType;
+    private List<String> permissions;
 
     public Field() {
     }
@@ -46,6 +49,21 @@ public class Field extends CommonModel {
 
     public FieldType getFieldType(String fieldType) {
         return FieldType.STRING.getFieldTypeFromString(fieldType);
+    }
+
+    public List<String> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(List<String> permissions) {
+        this.permissions = permissions;
+    }
+
+    public void addPermission(String permission) {
+        if(this.permissions == null) {
+            this.permissions = new ArrayList<>();
+        }
+        this.permissions.add(permission);
     }
 
     public String getId() {

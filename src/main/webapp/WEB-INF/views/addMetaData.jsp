@@ -39,9 +39,6 @@
                 <td><form:input path="label" /></td>
                 <td><form:errors path="label" cssClass="error" /></td>
             </tr>
-            <tr>
-                <td colspan="3"><input type="submit" value="Add Metadata"/></td>
-            </tr>
         </table>
 
         <table>
@@ -49,13 +46,14 @@
                 <th>Field Name</th>
                 <th>Field Type</th>
             </tr>
-            <c:forEach items="${metadata.fields}" var="field" varStatus="tagStatus">
+            <c:forEach items="${metadata.fields}" var="field" varStatus="status">
                 <tr>
-                    <td><form:input path="fields[${tagStatus.index}].name" value="${field.name}" readonly="true"/></td>
-                    <td><form:input path="fields[${tagStatus.index}].fieldType" value="${field.fieldType}" readonly="true"/></td>
+                    <td><form:input path="field[${status.index}].name" value="" name= "name" readonly="true"/></td>
+<%--                    <td><form:input path="metadataFields[${status.index}].fieldType" value="${field.fieldType}" name="fieldType" readonly="true"/></td>--%>
                 </tr>
             </c:forEach>
         </table>
+        <input type="submit" value="Add Metadata"/>
     </form:form>
 </body>
 </html>

@@ -3,7 +3,6 @@ package com.s2p.utility.exceluploader.controller;
 import com.s2p.utility.exceluploader.logger.Logger;
 import com.s2p.utility.exceluploader.model.Field;
 import com.s2p.utility.exceluploader.model.MetaData;
-import com.s2p.utility.exceluploader.model.User;
 import com.s2p.utility.exceluploader.service.MetaDataManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,7 +32,7 @@ public class MetaDataController {
         MetaData metaData = new MetaData("");
         metaData.setFields(createEmptyList());
         model.addAttribute("metadata", metaData);
-//        model.addAttribute("metadataFields", metaData.getFields());
+        model.addAttribute("metadataFields", metaData.getFields());
         return "addMetaData";
     }
 
