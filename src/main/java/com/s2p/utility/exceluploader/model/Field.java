@@ -10,8 +10,9 @@ import java.util.Objects;
 
 @Document
 public class Field extends CommonModel {
+    private int order;
     private String name;
-    private String collection;
+    private String metaData;
     private FieldType fieldType;
     private List<String> permissions;
 
@@ -29,14 +30,6 @@ public class Field extends CommonModel {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getCollection() {
-        return collection;
-    }
-
-    public void setCollection(String collection) {
-        this.collection = collection;
     }
 
     public FieldType getFieldType() {
@@ -82,30 +75,50 @@ public class Field extends CommonModel {
         this.info = info;
     }
 
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
+    public String getMetaData() {
+        return metaData;
+    }
+
+    public void setMetaData(String metaData) {
+        this.metaData = metaData;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Field field = (Field) o;
-        return id == field.id &&
+        return order == field.order &&
                 name.equals(field.name) &&
-                collection.equals(field.collection) &&
-                fieldType == field.fieldType;
+                metaData.equals(field.metaData) &&
+                fieldType == field.fieldType &&
+                permissions.equals(field.permissions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), id, name, collection, fieldType);
+        return Objects.hash(super.hashCode(), order, name, metaData, fieldType, permissions);
     }
 
     @Override
     public String toString() {
         return "Field{" +
-                "id=" + id +
+                "order=" + order +
                 ", name='" + name + '\'' +
-                ", collection='" + collection + '\'' +
+                ", metaData='" + metaData + '\'' +
                 ", fieldType=" + fieldType +
+                ", permissions=" + permissions +
+                ", id='" + id + '\'' +
+                ", info=" + info +
                 '}';
     }
 }

@@ -10,9 +10,7 @@ import java.util.Objects;
 @Document
 public class MetaData extends CommonModel {
     private String name;
-    private String label;
     private String description;
-    private List<String> tags;
     private List<Field> fields;
 
     public MetaData(String name) {
@@ -25,22 +23,6 @@ public class MetaData extends CommonModel {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
-    public List<String> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<String> tags) {
-        this.tags = tags;
     }
 
     public List<Field> getFields() {
@@ -75,14 +57,6 @@ public class MetaData extends CommonModel {
         this.description = description;
     }
 
-    public MetaData addTag(String tag) {
-        if (this.tags == null) {
-            this.tags = new ArrayList<>();
-        }
-        this.tags.add(tag);
-        return this;
-    }
-
     public MetaData addField(Field field) {
         if (this.fields == null) {
             this.fields = new ArrayList<>();
@@ -99,23 +73,19 @@ public class MetaData extends CommonModel {
         MetaData metaData = (MetaData) o;
         return id == metaData.id &&
                 name.equals(metaData.name) &&
-                label.equals(metaData.label) &&
-                tags.equals(metaData.tags) &&
                 fields.equals(metaData.fields);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), id, name, label, tags, fields);
+        return Objects.hash(super.hashCode(), id, name, fields);
     }
 
     @Override
     public String toString() {
         return "MetaData{" +
                 "name='" + name + '\'' +
-                ", label='" + label + '\'' +
                 ", description='" + description + '\'' +
-                ", tags=" + tags +
                 ", fields=" + fields +
                 ", id='" + id + '\'' +
                 ", info=" + info +
