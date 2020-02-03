@@ -7,6 +7,7 @@ public enum FieldType {
     TEXT;
 
     public FieldType getFieldTypeFromString(String fieldType) {
+        fieldType = fieldType.toLowerCase();
         switch (fieldType) {
             case "date" : return DATE;
             case "number" : return NUMBER;

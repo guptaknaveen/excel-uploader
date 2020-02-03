@@ -20,10 +20,10 @@ public class MetaDataRepository extends SimpleMongoRepository<MetaData, String> 
         Query query = new Query();
         query.addCriteria(Criteria.where("name").is(name));
         List<MetaData> metaDataList = this.mongoOperations.find(query, MetaData.class);
-        if (metaDataList != null && metaDataList.size() == 0) {
-            return metaDataList.get(0);
-        } else {
+        if (metaDataList == null) {
             return null;
+        } else {
+            return metaDataList.get(0);
         }
     }
 }

@@ -1,8 +1,10 @@
 package com.s2p.utility.exceluploader.controller;
 
 import com.s2p.utility.exceluploader.logger.Logger;
+import com.s2p.utility.exceluploader.model.Data;
 import com.s2p.utility.exceluploader.model.Field;
 import com.s2p.utility.exceluploader.model.MetaData;
+import com.s2p.utility.exceluploader.service.DataManager;
 import com.s2p.utility.exceluploader.service.MetaDataManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +30,9 @@ public class MetaDataController {
 
     @Autowired
     private MetaDataManager manager;
+
+    @Autowired
+    private DataManager dataManager;
 
     @RequestMapping(method = RequestMethod.GET)
     public String setupForm(Model model) {

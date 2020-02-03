@@ -2,6 +2,7 @@ package com.s2p.utility.exceluploader.model;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -32,6 +33,13 @@ public class DataRow extends CommonModel {
 
     public void setFieldData(List<FieldData> fieldData) {
         this.fieldData = fieldData;
+    }
+
+    public void addFieldData(FieldData fieldData) {
+        if (this.fieldData == null) {
+            this.fieldData = new ArrayList<>();
+        }
+        this.fieldData.add(fieldData);
     }
 
     @Override
