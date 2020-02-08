@@ -1,7 +1,6 @@
 package com.s2p.utility.exceluploader.repository.mongo;
 
 import com.s2p.utility.exceluploader.model.Data;
-import com.s2p.utility.exceluploader.model.User;
 import com.s2p.utility.exceluploader.repository.DataRepository;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -24,7 +23,7 @@ public class DataRepositoryImpl implements DataRepository {
         Query query = new Query();
         query.addCriteria(Criteria.where("metaDataId").is(metaDataId));
         List<Data> dataList = this.mongoOperations.find(query, Data.class);
-        if (dataList == null) {
+        if (dataList == null || dataList.size() == 0) {
             return null;
         } else {
             return dataList.get(0);

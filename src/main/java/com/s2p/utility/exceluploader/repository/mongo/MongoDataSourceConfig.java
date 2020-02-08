@@ -2,8 +2,8 @@ package com.s2p.utility.exceluploader.repository.mongo;
 
 import com.mongodb.ServerAddress;
 import com.mongodb.MongoClient;
+import com.s2p.utility.exceluploader.logger.Logger;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -11,22 +11,22 @@ import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 
 @Configuration
 public class MongoDataSourceConfig {
+    private Logger logger = Logger.getLogger();
+
     @Value("${spring.data.mongodb.port:27017}")
     private int port;
 
     @Value("${spring.data.mongodb.host:localhost}")
     private String host;
 
-    @Value("${spring.data.mongodb.dbName:configDB}")
+    @Value("${spring.data.mongodb.databasePath:configDataDB}")
     private String dbName;
 
     private MongoDbFactory factory;
 
-    public String getDatabaseName() {
-        return dbName;
-    }
+    private MongoTemplate mongoTemplate;
 
-    public MongoClient mongoClient() {
+    private MongoClient mongoClient() {
         ServerAddress address = new ServerAddress(host, port);
 
 //        MongoCredential credential = MongoCredential.createCredential("", getDatabaseName(), new char[]{});
@@ -36,16 +36,33 @@ public class MongoDataSourceConfig {
         return client;
     }
 
-    public MongoDbFactory mongoDbFactory() {
+    private MongoDbFactory mongoDbFactory() {
         if (factory == null) {
-            factory = new SimpleMongoDbFactory(mongoClient(), getDatabaseName());
+            factory = new SimpleMongoDbFactory(mongoClient(), dbName);
         }
         return factory;
     }
 
-    @Bean (name = "mongoDataSource")
     public MongoTemplate mongoTemplate() {
-        MongoTemplate template = new MongoTemplate(mongoDbFactory());
-        return template;
+        if (mongoTemplate == null) {
+            try {
+                mongoTemplate = new MongoTemplate(mongoDbFactory());
+                logger.info("Database connection created with " + toString());
+                return mongoTemplate;
+            } catch (Exception e) {
+                logger.info("Exception occurred during the database connection due to "
+                        + e.getMessage() + " please try again for database connection");
+            }
+        }
+        return mongoTemplate;
+    }
+
+    @Override
+    public String toString() {
+        return "MongoDataSourceConfig{" +
+                "port=" + port +
+                ", host='" + host + '\'' +
+                ", dbName='" + dbName + '\'' +
+                '}';
     }
 }
