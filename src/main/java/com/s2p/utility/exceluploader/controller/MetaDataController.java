@@ -37,7 +37,7 @@ public class MetaDataController {
     @RequestMapping(method = RequestMethod.GET)
     public String setupForm(Model model) {
         try {
-            manager.saveMetaDataFromExcel(new File("/Users/naveen/Projects/excel-uploader/src/main/resources/MetaData.xls"));
+            manager.saveMetaDataFromExcel("MetaData2", new File("/Users/naveen/Projects/excel-uploader/src/main/resources/MetaData.xls"));
 
             logger.info("Testing" + manager.fetchMetaData("MetaData"));
         } catch (IOException e) {

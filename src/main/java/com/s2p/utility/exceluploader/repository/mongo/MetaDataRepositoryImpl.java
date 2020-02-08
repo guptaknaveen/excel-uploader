@@ -22,7 +22,7 @@ public class MetaDataRepositoryImpl implements MetaDataRepository {
         Query query = new Query();
         query.addCriteria(Criteria.where("name").is(name));
         List<MetaData> metaDataList = this.mongoOperations.find(query, MetaData.class);
-        if (metaDataList == null) {
+        if (metaDataList == null||metaDataList.size() == 0) {
             return null;
         } else {
             return metaDataList.get(0);

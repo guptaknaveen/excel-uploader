@@ -22,8 +22,8 @@ public class MongoRepositoryFactoryImpl implements RepositoryFactory {
     private static final String META_DATA_COLLECTION_NAME = "metadata";
 
     @Autowired
-    @Qualifier("mongoDataSource")
-    private MongoTemplate mongoTemplate;
+    @Qualifier("mongoDataSourceConfig")
+    private MongoDataSourceConfig mongoDataSourceConfig;
 
     private static Map<String, Repository> repositoryCache = new HashMap<>();
 
@@ -33,7 +33,7 @@ public class MongoRepositoryFactoryImpl implements RepositoryFactory {
                     new MappingMongoEntityInformation<User, String>(
                            new BasicMongoPersistentEntity<User>(ClassTypeInformation.from(User.class))
                     ),
-                    mongoTemplate
+                    mongoDataSourceConfig.mongoTemplate()
             ));
         }
         return (UserRepository) repositoryCache.get(USER_COLLECTION_NAME);
@@ -46,7 +46,7 @@ public class MongoRepositoryFactoryImpl implements RepositoryFactory {
                     new MappingMongoEntityInformation<MetaData, String>(
                             new BasicMongoPersistentEntity<MetaData>(ClassTypeInformation.from(MetaData.class))
                     ),
-                    mongoTemplate
+                    mongoDataSourceConfig.mongoTemplate()
             ));
         }
         return (MetaDataRepository) repositoryCache.get(META_DATA_COLLECTION_NAME);
@@ -58,7 +58,7 @@ public class MongoRepositoryFactoryImpl implements RepositoryFactory {
                     new MappingMongoEntityInformation<Data, String>(
                             new BasicMongoPersistentEntity<Data>(ClassTypeInformation.from(Data.class))
                     ),
-                    mongoTemplate
+                    mongoDataSourceConfig.mongoTemplate()
             ));
         }
         return (DataRepository) repositoryCache.get(DATA_COLLECTION_NAME);
