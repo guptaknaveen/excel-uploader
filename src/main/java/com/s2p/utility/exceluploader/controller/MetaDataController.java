@@ -36,13 +36,15 @@ public class MetaDataController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String setupForm(Model model) {
+        /*
+        // Used for testing the backend calls should be removed from here
         try {
             manager.saveMetaDataFromExcel("MetaData2", new File("/Users/naveen/Projects/excel-uploader/src/main/resources/MetaData.xls"));
 
             logger.info("Testing" + manager.fetchMetaData("MetaData"));
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
 
         MetaData metaData = new MetaData("");
