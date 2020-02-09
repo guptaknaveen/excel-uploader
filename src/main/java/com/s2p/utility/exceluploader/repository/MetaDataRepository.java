@@ -8,4 +8,5 @@ public interface MetaDataRepository extends Repository {
     MetaData findByName(String name);
     MetaData save(MetaData metaData);
     List<MetaData> fetchAll();
+    MetaData findById(String metaDataId);
 }

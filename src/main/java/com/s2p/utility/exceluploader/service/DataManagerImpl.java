@@ -25,6 +25,11 @@ public class DataManagerImpl implements DataManager {
     public Data saveDataFromExcel(String metaDataName, File file) throws IOException {
         MetaData metaData = metaDataManager.fetchMetaData(metaDataName);
 
+        return saveDataFromExcel(metaData, file);
+    }
+
+    @Override
+    public Data saveDataFromExcel(MetaData metaData, File file) throws IOException {
         Data data = new Data(metaData.getId());
 
         data = fetchDataFromExcel(data, metaData, file);
@@ -34,6 +39,7 @@ public class DataManagerImpl implements DataManager {
 
         return repositoryFactory.getDataRepository().save(data);
     }
+
 
     private Data fetchDataFromExcel(Data data, MetaData metaData, File file) throws IOException {
         List<Map<String, Object>> excelData = ExcelReader.getExcelReader().readXLSData(file);

@@ -13,4 +13,5 @@ public interface MetaDataManager {
     MetaData saveMetaDataFromExcel(File excelFile) throws IOException;
     MetaData saveMetaDataFromExcel(String metaDataName, File excelFile) throws IOException;
     List<MetaData> fetchAllMetaData();
+    MetaData fetchMetaDataById(String metaDataId);
 }

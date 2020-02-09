@@ -17,14 +17,14 @@ public class UserController {
     @Autowired
     private UserManager manager;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public String setupForm(Model model) {
         User user = new User();
         model.addAttribute("user", user);
         return "addUser";
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/add")
+    @PostMapping("/add")
     @ResponseBody
     public String submitForm(@RequestParam("firstName") String firstName,
                              @RequestParam("lastName") String lastName,
