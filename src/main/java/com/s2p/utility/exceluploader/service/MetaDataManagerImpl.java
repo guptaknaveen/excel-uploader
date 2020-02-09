@@ -22,7 +22,7 @@ public class MetaDataManagerImpl implements MetaDataManager {
     private RepositoryFactory repositoryFactory;
 
     @Override
-    public MetaData addMetaData(MetaData metaData) {
+    public MetaData saveMetaData(MetaData metaData) {
         MetaDataRepository repository = repositoryFactory.getMetaDataRepository();
         return repository.save(metaData);
     }
@@ -44,14 +44,19 @@ public class MetaDataManagerImpl implements MetaDataManager {
 
     @Override
     public MetaData saveMetaDataFromExcel(File excelFile) throws IOException {
-        return addMetaData(readMetaDataFromExcel(excelFile));
+        return saveMetaData(readMetaDataFromExcel(excelFile));
     }
 
     @Override
     public MetaData saveMetaDataFromExcel(String metaDataName, File excelFile) throws IOException {
         MetaData metaData = readMetaDataFromExcel(excelFile);
         metaData.setName(metaDataName);
-        return addMetaData(metaData);
+        return saveMetaData(metaData);
+    }
+
+    @Override
+    public List<MetaData> fetchAllMetaData() {
+        return repositoryFactory.getMetaDataRepository().fetchAll();
     }
 
     private Field createFieldFromRowMap(Map<String, Object> rowMap) {

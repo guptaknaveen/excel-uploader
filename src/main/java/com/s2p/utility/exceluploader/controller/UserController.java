@@ -6,16 +6,10 @@ import com.s2p.utility.exceluploader.service.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/user-module/addNew")
-@SessionAttributes("user")
+@RequestMapping("/user")
 public class UserController {
 
     private static Logger logger = Logger.getLogger();
@@ -30,19 +24,20 @@ public class UserController {
         return "addUser";
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public String submitForm(@ModelAttribute("user") User user,
-                             BindingResult result, SessionStatus status) {
+    @RequestMapping(method = RequestMethod.POST, path = "/add")
+    @ResponseBody
+    public String submitForm(@RequestParam("firstName") String firstName,
+                             @RequestParam("lastName") String lastName,
+                             @RequestParam("email") String email) {
+        User user = new User();
+        user.setEmail(email);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+
         logger.info(user);
 
         manager.addUser(user);
 
-        status.setComplete();
-        return "redirect:addNew/success";
-    }
-
-    @RequestMapping(value = "/success", method = RequestMethod.GET)
-    public String success(Model model) {
-        return "addSuccess";
+        return "User added";
     }
 }
