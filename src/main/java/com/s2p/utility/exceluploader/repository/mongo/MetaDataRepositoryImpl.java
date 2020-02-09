@@ -33,4 +33,9 @@ public class MetaDataRepositoryImpl implements MetaDataRepository {
     public MetaData save(MetaData metaData) {
         return this.defaultMongoRepository.save(metaData);
     }
+
+    @Override
+    public List<MetaData> fetchAll() {
+        return this.defaultMongoRepository.findAll();
+    }
 }

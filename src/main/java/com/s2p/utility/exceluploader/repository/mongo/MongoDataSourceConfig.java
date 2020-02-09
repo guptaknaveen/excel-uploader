@@ -28,10 +28,6 @@ public class MongoDataSourceConfig {
 
     private MongoClient mongoClient() {
         ServerAddress address = new ServerAddress(host, port);
-
-//        MongoCredential credential = MongoCredential.createCredential("", getDatabaseName(), new char[]{});
-//        MongoClientOptions options = new MongoClientOptions.Builder().build();
-
         MongoClient client = new MongoClient(address);
         return client;
     }

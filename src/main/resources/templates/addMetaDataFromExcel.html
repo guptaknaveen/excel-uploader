@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>Upload Metadata</title>
+    <style>
+    .error
+    {
+        color: #ff0000;
+        font-weight: bold;
+    }
+    </style>
+
+    <script>
+
+    </script>
+</head>
+ 
+<body>
+<div align="center">
+    <h1>Upload Metadata</h1>
+    <br/>
+    <form method="post" action="/metadata/uploadExcel" enctype="multipart/form-data">
+        <table border="1" cellpadding="10">
+            <tr>
+                <td>Metadata Name (Please do not use special characters in name)</td>
+                <td><input type="text" name="metaDataName"/></td>
+            </tr>
+            <tr>
+                <td>Metadata Description (Small summary about the metadata)</td>
+                <td><input type="text" name="metaDataDescription"/></td>
+            </tr>
+            <tr>
+                <td>Metadata File (.xls)</td>
+                <td><input type="file" name="file"/></td>
+            </tr>
+            <tr>
+                <td><a href="/metadata/">Metadata List</a></td>
+                <td><input type="submit" value="Add Metadata"/></td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>
