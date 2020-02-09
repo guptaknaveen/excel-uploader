@@ -13,28 +13,44 @@
     <a href="/metadata/">Metadata List</a>
     <br/><br/>
 
-    <form method="post" action="/metadata/uploadExcel" enctype="multipart/form-data">
+    <h2>Field Details</h2>
+
+    <table border="1" cellpadding="10">
+        <thead>
+        <tr>
+            <th>Field Name</th>
+            <th>Field Type</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="field : ${metaData.getFields()}">
+            <td th:text="${field.getName()}">Name</td>
+            <td th:text="${field.getFieldType().name()}">Description</td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <br/><br/>
+
+    <h2>Upload Data</h2>
+
+    <form method="post" action="/metadata/data/add/" enctype="multipart/form-data">
+        <input type="hidden" th:value="${metaData.getId()}" name="metaDataId" />
         <table border="1" cellpadding="10">
             <tr>
-                <td>Metadata Name (Please do not use special characters in name)</td>
-                <td><input type="text" name="metaDataName"/></td>
-            </tr>
-            <tr>
-                <td>Metadata Description (Small summary about the metadata)</td>
-                <td><input type="text" name="metaDataDescription"/></td>
-            </tr>
-            <tr>
-                <td>Metadata File (.xls)</td>
+                <td>Please choose Data File (.xls)</td>
                 <td><input type="file" name="file"/></td>
             </tr>
             <tr>
-                <td><a href="/metadata/">Metadata List</a></td>
-                <td><input type="submit" value="Add Metadata"/></td>
+                <td colspan="3"><input type="submit" value="Save Data For Metadata"/></td>
             </tr>
         </table>
     </form>
 
     <br/><br/>
+
+    <h2>Data Details</h2>
 
     <table border="1" cellpadding="10">
         <thead>

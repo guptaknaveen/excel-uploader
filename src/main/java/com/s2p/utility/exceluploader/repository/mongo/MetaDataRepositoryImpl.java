@@ -38,4 +38,9 @@ public class MetaDataRepositoryImpl implements MetaDataRepository {
     public List<MetaData> fetchAll() {
         return this.defaultMongoRepository.findAll();
     }
+
+    @Override
+    public MetaData findById(String metaDataId) {
+        return this.defaultMongoRepository.findById(metaDataId).get();
+    }
 }

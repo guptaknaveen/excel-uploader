@@ -59,6 +59,11 @@ public class MetaDataManagerImpl implements MetaDataManager {
         return repositoryFactory.getMetaDataRepository().fetchAll();
     }
 
+    @Override
+    public MetaData fetchMetaDataById(String metaDataId) {
+        return repositoryFactory.getMetaDataRepository().findById(metaDataId);
+    }
+
     private Field createFieldFromRowMap(Map<String, Object> rowMap) {
         Field field = new Field();
         field.setName((String) rowMap.get("NAME"));

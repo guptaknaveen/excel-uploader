@@ -8,6 +8,7 @@ import com.s2p.utility.exceluploader.model.MetaData;
 import com.s2p.utility.exceluploader.model.TableData;
 import com.s2p.utility.exceluploader.service.DataManager;
 import com.s2p.utility.exceluploader.service.MetaDataManager;
+import com.s2p.utility.exceluploader.util.Converter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,9 +34,12 @@ public class MetaDataController {
     private MetaDataManager manager;
 
     @Autowired
+    private DataManager dataManager;
+
+    @Autowired
     private CommonConfiguration configuration;
 
-    @GetMapping("/")
+    @GetMapping
     public String list(Model model) {
         List<MetaData> metaDataList = manager.fetchAllMetaData();
         model.addAttribute("metaDataList", metaDataList);
@@ -94,10 +98,50 @@ public class MetaDataController {
         return "uploadStatus";
     }
 
+    @PostMapping("/data/add/")
+    public String saveDataForMetaData(Model model, @RequestParam("file") MultipartFile file,
+                                      @RequestParam("metaDataId") String metaDataId,
+                                      RedirectAttributes redirectAttributes) {
+        MetaData metaData = manager.fetchMetaDataById(metaDataId);
+
+        if (file.isEmpty()) {
+            redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
+            return "redirect:/metadata/uploadStatus";
+        }
+
+        try {
+            String filePath = configuration.getFileUploadFolderPath() + file.getOriginalFilename();
+
+            byte[] bytes = file.getBytes();
+            Path path = Paths.get(filePath);
+            Files.write(path, bytes);
+
+            logger.info("Successfully saved file to location : " + filePath);
+
+            redirectAttributes.addFlashAttribute("message",
+                    "You successfully uploaded '" + file.getOriginalFilename() + "'");
+
+            Data data = dataManager.saveDataFromExcel(metaData, new File(filePath));
+
+            logger.info("Following data save successfully");
+            logger.info(data);
+
+        } catch (IOException e) {
+            logger.info("Exception occurred during file upload process due to " + e.getMessage());
+        }
+
+        return "redirect:/metadata/data/"+metaDataId;
+    }
+
     @GetMapping("/data/{metaDataId}")
     public String metaDataDetail(Model model, @PathVariable("metaDataId") String metaDataId) {
-        TableData tableData = new TableData();
+        MetaData metaData = manager.fetchMetaDataById(metaDataId);
+
+        Data data = dataManager.fetchDataByMetaDataName(metaData.getName());
+
+        TableData tableData = Converter.getConverter().getTableDataFromMetaData(metaData, data);
         model.addAttribute("tableData", tableData);
+        model.addAttribute("metaData", metaData);
         return "metaDataDetails";
     }
 }
