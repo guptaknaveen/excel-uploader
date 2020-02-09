@@ -21,7 +21,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 @Configuration
-@Profile("flapdoodle")
+@Profile("embededmongo") // need to pass this argument at run time to pick this profile -Dspring.profiles.active=embededmongo
 @Order (value = Ordered.HIGHEST_PRECEDENCE)
 public class FlapDoodleDataSourceConfig {
     Logger logger = Logger.getLogger();
