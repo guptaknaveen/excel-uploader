@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.repository.query.MongoEntityInformation;
 import org.springframework.data.mongodb.repository.support.SimpleMongoRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public class MetaDataRepositoryImpl implements MetaDataRepository {
     private MongoOperations mongoOperations;
@@ -41,6 +42,12 @@ public class MetaDataRepositoryImpl implements MetaDataRepository {
 
     @Override
     public MetaData findById(String metaDataId) {
-        return this.defaultMongoRepository.findById(metaDataId).get();
+        Optional<MetaData> metaData = this.defaultMongoRepository.findById(metaDataId);
+        return metaData.isPresent() ? metaData.get() : null;
+    }
+
+    @Override
+    public void removeMetaData(MetaData metaData) {
+        this.defaultMongoRepository.delete(metaData);
     }
 }

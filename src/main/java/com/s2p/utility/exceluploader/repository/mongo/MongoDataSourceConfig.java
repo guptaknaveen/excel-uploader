@@ -19,7 +19,7 @@ public class MongoDataSourceConfig {
     @Value("${spring.data.mongodb.host:localhost}")
     private String host;
 
-    @Value("${spring.data.mongodb.databasePath:configDataDB}")
+    @Value("${spring.data.mongodb.database:configDataDB}")
     private String dbName;
 
     private MongoDbFactory factory;

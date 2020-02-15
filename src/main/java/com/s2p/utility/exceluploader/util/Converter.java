@@ -3,9 +3,7 @@ package com.s2p.utility.exceluploader.util;
 import com.s2p.utility.exceluploader.model.*;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Converter {
@@ -25,6 +23,8 @@ public class Converter {
             tableData.addHeader(field.getName().toUpperCase());
             fieldIdMap.put(field.getId(), field.getName().toUpperCase());
         }
+        tableData.addHeader("_ID");
+        fieldIdMap.put("_id", "_ID");
 
         if (data == null || CollectionUtils.isEmpty(data.getDataRows())) {
             return tableData;
@@ -41,6 +41,7 @@ public class Converter {
         for (FieldData fieldData : dataRow.getFieldData()) {
             rowMap.put(fieldIdMap.get(fieldData.getFieldId()), fieldData.getValue() == null ? "" : fieldData.getValue().toString());
         }
+        rowMap.put(fieldIdMap.get("_id"), dataRow.getId());
         return rowMap;
     }
 }

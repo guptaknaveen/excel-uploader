@@ -9,6 +9,7 @@ import com.s2p.utility.exceluploader.model.TableData;
 import com.s2p.utility.exceluploader.service.DataManager;
 import com.s2p.utility.exceluploader.service.MetaDataManager;
 import com.s2p.utility.exceluploader.util.Converter;
+import com.s2p.utility.exceluploader.util.ExcelWriter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -67,7 +68,7 @@ public class MetaDataController {
         }
 
         try {
-            String filePath = configuration.getFileUploadFolderPath() + file.getOriginalFilename();
+            String filePath = configuration.getFileUploadFolderPath() + File.separator + file.getOriginalFilename();
 
             byte[] bytes = file.getBytes();
             Path path = Paths.get(filePath);
@@ -110,7 +111,7 @@ public class MetaDataController {
         }
 
         try {
-            String filePath = configuration.getFileUploadFolderPath() + file.getOriginalFilename();
+            String filePath = configuration.getFileUploadFolderPath() + File.separator + file.getOriginalFilename();
 
             byte[] bytes = file.getBytes();
             Path path = Paths.get(filePath);
@@ -137,11 +138,43 @@ public class MetaDataController {
     public String metaDataDetail(Model model, @PathVariable("metaDataId") String metaDataId) {
         MetaData metaData = manager.fetchMetaDataById(metaDataId);
 
-        Data data = dataManager.fetchDataByMetaDataName(metaData.getName());
+        Data data = dataManager.fetchDataByMetaDataId(metaDataId);
 
         TableData tableData = Converter.getConverter().getTableDataFromMetaData(metaData, data);
         model.addAttribute("tableData", tableData);
         model.addAttribute("metaData", metaData);
         return "metaDataDetails";
+    }
+
+    @GetMapping("/delete/{metaDataId}")
+    public String deleteMetaData(Model model, @PathVariable("metaDataId") String metaDataId) {
+        MetaData metaData = manager.fetchMetaDataById(metaDataId);
+
+        Data data = dataManager.fetchDataByMetaDataId(metaData.getId());
+
+        if (metaData != null) {
+            manager.removeMetaData(metaData.getId());
+        }
+
+        if (data != null) {
+            dataManager.removeData(data.getId());
+        }
+
+        return "redirect:/metadata/";
+    }
+
+    @GetMapping("/file/{metaDataId}")
+    public String metaDataFile(Model model, @PathVariable("metaDataId") String metaDataId) {
+        MetaData metaData = manager.fetchMetaDataById(metaDataId);
+
+        Data data = dataManager.fetchDataByMetaDataId(metaDataId);
+
+        try {
+            ExcelWriter.getExcelWriter().writeToXLSExcel(metaData, data, configuration.getFileCreateFolderPath());
+        } catch (Exception e) {
+            logger.info("Error occurred during excel export of " + metaData.getName());
+        }
+
+        return "redirect:/metadata/";
     }
 }

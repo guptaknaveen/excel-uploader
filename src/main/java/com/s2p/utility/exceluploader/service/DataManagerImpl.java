@@ -1,5 +1,6 @@
 package com.s2p.utility.exceluploader.service;
 
+import com.s2p.utility.exceluploader.logger.Logger;
 import com.s2p.utility.exceluploader.model.*;
 import com.s2p.utility.exceluploader.repository.RepositoryFactory;
 import com.s2p.utility.exceluploader.util.ExcelReader;
@@ -15,6 +16,7 @@ import java.util.UUID;
 
 @Service
 public class DataManagerImpl implements DataManager {
+    private static Logger logger = Logger.getLogger();
     @Autowired
     private RepositoryFactory repositoryFactory;
 
@@ -82,5 +84,19 @@ public class DataManagerImpl implements DataManager {
             return null;
         }
         return repositoryFactory.getDataRepository().findByMetaDataId(metadata.getId());
+    }
+
+
+    @Override
+    public Data fetchDataByMetaDataId(String metaDataId) {
+        return repositoryFactory.getDataRepository().findByMetaDataId(metaDataId);
+    }
+
+    @Override
+    public Data removeData(String dataId) {
+        Data data = repositoryFactory.getDataRepository().fetchDataByDataId(dataId);
+        repositoryFactory.getDataRepository().removeData(data);
+        logger.info("Data deleted : "+data);
+        return data;
     }
 }

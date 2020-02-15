@@ -2,6 +2,7 @@ package com.s2p.utility.exceluploader.service;
 
 import com.s2p.utility.exceluploader.constant.FieldType;
 import com.s2p.utility.exceluploader.constant.Permission;
+import com.s2p.utility.exceluploader.logger.Logger;
 import com.s2p.utility.exceluploader.model.Field;
 import com.s2p.utility.exceluploader.model.MetaData;
 import com.s2p.utility.exceluploader.repository.MetaDataRepository;
@@ -18,6 +19,8 @@ import java.util.UUID;
 
 @Service
 public class MetaDataManagerImpl implements MetaDataManager {
+    private static Logger logger = Logger.getLogger();
+
     @Autowired
     private RepositoryFactory repositoryFactory;
 
@@ -62,6 +65,14 @@ public class MetaDataManagerImpl implements MetaDataManager {
     @Override
     public MetaData fetchMetaDataById(String metaDataId) {
         return repositoryFactory.getMetaDataRepository().findById(metaDataId);
+    }
+
+    @Override
+    public MetaData removeMetaData(String metaDataId) {
+        MetaData metaData = this.fetchMetaDataById(metaDataId);
+        repositoryFactory.getMetaDataRepository().removeMetaData(metaData);
+        logger.info("Metadata deleted : "+metaData);
+        return metaData;
     }
 
     private Field createFieldFromRowMap(Map<String, Object> rowMap) {

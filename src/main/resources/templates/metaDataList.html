@@ -23,10 +23,11 @@
             <td th:text="${metaData.getName()}">Name</td>
             <td th:text="${metaData.getDescription()}">Description</td>
             <td>
-                <!--<a th:href="@{/metadata/file/{id}(id=${metaData.getId()})}">File</a>
+                <a th:href="@{/metadata/file/{id}(id=${metaData.getId()})}">File</a>
                 &nbsp;&nbsp;&nbsp;
-                -->
                 <a th:href="@{/metadata/data/{id}(id=${metaData.getId()})}">Data</a>
+                &nbsp;&nbsp;&nbsp;
+                <a th:href="@{/metadata/delete/{id}(id=${metaData.getId()})}">Delete</a>
             </td>
         </tr>
         </tbody>

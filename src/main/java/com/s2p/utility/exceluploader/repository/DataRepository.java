@@ -6,4 +6,6 @@ public interface DataRepository extends Repository {
     Data save(Data data);
     void removeByMetaDataId(String metaDataId);
     Data findByMetaDataId(String metaDataId);
+    Data fetchDataByDataId(String dataId);
+    void removeData(Data data);
 }

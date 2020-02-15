@@ -10,4 +10,6 @@ public interface DataManager {
     Data saveDataFromExcel(String metaDataName, File file) throws IOException;
     Data fetchDataByMetaDataName(String metaDataName);
     Data saveDataFromExcel(MetaData metaData, File file) throws IOException;
+    Data fetchDataByMetaDataId(String metaDataId);
+    Data removeData(String dataId);
 }

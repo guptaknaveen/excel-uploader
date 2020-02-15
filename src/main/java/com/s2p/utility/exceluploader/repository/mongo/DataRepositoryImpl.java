@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.repository.query.MongoEntityInformation;
 import org.springframework.data.mongodb.repository.support.SimpleMongoRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public class DataRepositoryImpl implements DataRepository {
     private MongoOperations mongoOperations;
@@ -28,6 +29,17 @@ public class DataRepositoryImpl implements DataRepository {
         } else {
             return dataList.get(0);
         }
+    }
+
+    @Override
+    public Data fetchDataByDataId(String dataId) {
+        Optional<Data> data = this.defaultMongoRepository.findById(dataId);
+        return data.isPresent() ? data.get() : null;
+    }
+
+    @Override
+    public void removeData(Data data) {
+        this.defaultMongoRepository.delete(data);
     }
 
     public void removeByMetaDataId(String metaDataId) {
