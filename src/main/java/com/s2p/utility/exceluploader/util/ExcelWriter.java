@@ -5,7 +5,6 @@ import com.s2p.utility.exceluploader.logger.Logger;
 import com.s2p.utility.exceluploader.model.Data;
 import com.s2p.utility.exceluploader.model.MetaData;
 import com.s2p.utility.exceluploader.model.TableData;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -34,7 +33,10 @@ public class ExcelWriter {
 
     public File writeToXLSExcel(MetaData metaData, Data data, String folderName) throws IOException {
         TableData tableData = Converter.getConverter().getTableDataFromMetaData(metaData, data);
-        String fileName = folderName + File.separator + metaData.getName() + "." + ExcelType.XLS.extension();
+        String fileName = folderName +
+                File.separator +
+                metaData.getName() + "_" + System.currentTimeMillis() +
+                "." + ExcelType.XLS.extension();
         File file = new File(fileName);
         Workbook workbook = createHSSFWorkBook(tableData);
         workbook.write(new FileOutputStream(file));
@@ -66,7 +68,7 @@ public class ExcelWriter {
 
     private Sheet createSheet(String sheetName, Workbook workbook, TableData tableData) {
         Sheet sheet = workbook.createSheet(sheetName);
-        int rowNum = 1;
+        int rowNum = 0;
 
         // create header row
         createRow(rowNum++, sheet, tableData.getHeaders());
@@ -79,7 +81,7 @@ public class ExcelWriter {
     }
 
     private Row createRow(int rowNum, Sheet sheet, List<String> headers, Map<String, String> rowData) {
-        int columnNum = 1;
+        int columnNum = 0;
         Row row = sheet.createRow(rowNum);
         for (String header : headers) {
             createCell(columnNum++, row, rowData.get(header));
@@ -88,7 +90,7 @@ public class ExcelWriter {
     }
 
     private Row createRow(int rowNum, Sheet sheet, List<String> dataRow) {
-        int columnNum = 1;
+        int columnNum = 0;
         Row row = sheet.createRow(rowNum);
         for (String data : dataRow) {
             createCell(columnNum++, row, data);
@@ -103,42 +105,4 @@ public class ExcelWriter {
         }
         return cell;
     }
-
-    void main(String[] args) throws IOException {
-        HSSFWorkbook workbook = new HSSFWorkbook();
-        HSSFSheet sheet = workbook.createSheet("data");
-
-        Object[][] bookData = {
-                {"Head First Java", "Kathy Serria", 79},
-                {"Effective Java", "Joshua Bloch", 36},
-                {"Clean Code", "Robert martin", 42},
-                {"Thinking in Java", "Bruce Eckel", 35},
-        };
-
-        int rowCount = 0;
-
-        for (Object[] aBook : bookData) {
-            Row row = sheet.createRow(++rowCount);
-
-            int columnCount = 0;
-
-            for (Object field : aBook) {
-                Cell cell = row.createCell(++columnCount);
-                if (field instanceof String) {
-                    cell.setCellValue((String) field);
-                } else if (field instanceof Integer) {
-                    cell.setCellValue((Integer) field);
-                }
-            }
-
-        }
-
-
-        try (FileOutputStream outputStream = new FileOutputStream("JavaBooks.xlsx")) {
-            workbook.write(outputStream);
-        }
-    }
-
-
-
 }
